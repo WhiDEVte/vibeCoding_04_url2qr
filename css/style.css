@@ -1,0 +1,653 @@
+/* ==========================================================================
+   디자인 토큰 및 변수 (로고 맞춤형 밝은 톤 & 프리즘 컬러)
+   ========================================================================== */
+:root {
+  /* 로고 주 색상 추출 팔레트 (시안, 퍼플, 앰버) */
+  --color-cyan: #06b6d4;
+  --color-cyan-glow: rgba(6, 182, 212, 0.28);
+  --color-purple: #8b5cf6;
+  --color-purple-glow: rgba(139, 92, 246, 0.25);
+  --color-amber: #f59e0b;
+  --color-amber-glow: rgba(245, 158, 11, 0.22);
+  --color-blue: #3b82f6;
+
+  /* 밝은 톤 UI 색상 */
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-light: #94a3b8;
+  --bg-base: #f8fafc;
+  
+  /* 글래스모피즘 카드 스타일 */
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(255, 255, 255, 0.95);
+  --card-shadow: 0 20px 50px -10px rgba(139, 92, 246, 0.08), 0 0 1px 1.5px rgba(255, 255, 255, 0.9);
+  --card-shadow-hover: 0 25px 60px -10px rgba(6, 182, 212, 0.2), 0 0 1px 1.5px rgba(255, 255, 255, 1);
+  
+  /* 마우스 반응형 CSS 동적 변수 (기본값) */
+  --mx: 50%;
+  --my: 50%;
+  --mouse-ratio-x: 0.5;
+  --mouse-ratio-y: 0.5;
+  --hue-shift: 0deg;
+
+  --transition-smooth: all 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Pretendard", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   마우스 반응형 인터랙티브 앰비언트 배경
+   ========================================================================== */
+.ambient-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 100%);
+  filter: hue-rotate(var(--hue-shift));
+  transition: filter 0.15s ease-out;
+}
+
+/* 유기적으로 움직이는 오로라 빛무리 (Glow Orbs) */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: 0.55;
+  will-change: transform;
+  mix-blend-mode: multiply;
+  transition: transform 0.2s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+/* 시안(청록) 오로라 구체 - 마우스 X, Y와 직접 반응 */
+.orb-cyan {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, #22d3ee 0%, #06b6d4 60%, transparent 80%);
+  top: -60px;
+  left: -40px;
+  transform: translate(calc((var(--mouse-ratio-x) - 0.5) * 80px), calc((var(--mouse-ratio-y) - 0.5) * 60px));
+}
+
+/* 퍼플(바이올렛) 오로라 구체 - 마우스와 반대 방향 패럴랙스 */
+.orb-purple {
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, #c084fc 0%, #8b5cf6 60%, transparent 80%);
+  bottom: -80px;
+  right: -50px;
+  transform: translate(calc((0.5 - var(--mouse-ratio-x)) * 90px), calc((0.5 - var(--mouse-ratio-y)) * 70px));
+}
+
+/* 앰버/골드 오로라 구체 - 중앙 하단 화사한 따뜻한 빛 */
+.orb-amber {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, #fde047 0%, #f59e0b 60%, transparent 80%);
+  top: 35%;
+  right: 25%;
+  transform: translate(calc((var(--mouse-ratio-x) - 0.5) * -50px), calc((var(--mouse-ratio-y) - 0.5) * 80px));
+  opacity: 0.45;
+}
+
+/* 딥 블루 악센트 오로라 구체 */
+.orb-blue {
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, #60a5fa 0%, #2563eb 60%, transparent 80%);
+  bottom: 15%;
+  left: 20%;
+  transform: translate(calc((var(--mouse-ratio-x) - 0.5) * 60px), calc((0.5 - var(--mouse-ratio-y)) * 50px));
+  opacity: 0.4;
+}
+
+/* 마우스 커서를 따라다니는 초미세 하이라이트 빛무리 */
+.mouse-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 360px at var(--mx) var(--my),
+    rgba(6, 182, 212, 0.16) 0%,
+    rgba(139, 92, 246, 0.10) 40%,
+    rgba(245, 158, 11, 0.05) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+/* ==========================================================================
+   상단 헤더 (화면 상단 좌측 로고)
+   ========================================================================== */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.logo-area {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 18px 8px 10px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.08), 0 0 1px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.logo-area:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15), 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.logo-img {
+  height: 34px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  display: block;
+}
+
+.logo-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0284c7 0%, #7c3aed 50%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   메인 뷰포트
+   ========================================================================== */
+.app-main {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   정중앙 QR 코드 표시 영역
+   ========================================================================== */
+.qr-container {
+  position: absolute;
+  top: calc(50% - 40px);
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+  z-index: 20;
+}
+
+/* 생성 완료 상태에서 정중앙 활성화 */
+body.state-generated .qr-container {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.qr-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 32px 36px 24px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  user-select: none;
+  width: 324px;
+  max-width: 90vw;
+}
+
+.qr-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.qr-card:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 상단 다운로드 뱃지 (로고 시안-퍼플 컬러 조화) */
+.qr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
+  color: #0284c7;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  margin-bottom: 20px;
+  transition: all 0.25s ease;
+}
+
+.qr-card:hover .qr-badge {
+  background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.35);
+}
+
+/* QR 프리뷰 래퍼 및 호버 오버레이 */
+.qr-preview-wrapper {
+  position: relative;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#qrcode-box {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#qrcode-box canvas {
+  display: block !important;
+  width: 220px !important;
+  height: 220px !important;
+  border-radius: 6px;
+}
+
+.qr-overlay {
+  position: absolute;
+  inset: 12px;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.qr-card:hover .qr-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* QR 메타 정보 */
+.qr-meta {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.qr-target-url {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  margin: 0 auto 6px;
+}
+
+.qr-subtext {
+  font-size: 0.76rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   URL 입력 컨테이너 (중앙 -> 하단 부드러운 전환)
+   ========================================================================== */
+.input-container {
+  position: absolute;
+  left: 50%;
+  z-index: 30;
+  transition: var(--transition-smooth);
+}
+
+/* 초기 상태: 화면 정중앙 */
+body.state-initial .input-container {
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 620px;
+}
+
+/* 생성 후 상태: 화면 하단 플로팅 */
+body.state-generated .input-container {
+  top: calc(100% - 100px);
+  transform: translate(-50%, 0);
+  width: 90%;
+  max-width: 680px;
+}
+
+.input-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 34px 38px;
+  box-shadow: var(--card-shadow);
+  transition: padding 0.5s ease, border-radius 0.5s ease, box-shadow 0.3s ease;
+}
+
+body.state-generated .input-card {
+  padding: 16px 22px;
+  border-radius: 9999px;
+  box-shadow: 0 12px 35px -10px rgba(139, 92, 246, 0.15), 0 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+/* 헤딩 텍스트 (로고 프리즘 텍스트 그라데이션) */
+.intro-heading {
+  text-align: center;
+  transition: opacity 0.4s ease, max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), margin-bottom 0.4s ease;
+  overflow: hidden;
+}
+
+body.state-initial .intro-heading {
+  opacity: 1;
+  max-height: 150px;
+  margin-bottom: 28px;
+}
+
+body.state-generated .intro-heading {
+  opacity: 0;
+  max-height: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+.main-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  line-height: 1.3;
+  background: linear-gradient(135deg, #0284c7 0%, #7c3aed 45%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.main-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* 입력 폼 */
+.url-form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.input-group {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix-icon {
+  position: absolute;
+  left: 18px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.url-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 46px 0 48px;
+  font-size: 1rem;
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+body.state-generated .url-input {
+  height: 48px;
+  border-radius: 9999px;
+  padding-left: 46px;
+}
+
+.url-input:focus {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.25);
+  background: #ffffff;
+}
+
+.url-input:focus ~ .input-prefix-icon {
+  color: #06b6d4;
+}
+
+.url-input::placeholder {
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* 입력 클리어 버튼 */
+.btn-clear {
+  position: absolute;
+  right: 14px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: #e2e8f0;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-clear:hover {
+  background: #cbd5e1;
+  color: var(--text-main);
+}
+
+/* 생성하기 버튼 (로고 시안-퍼플-핑크 멀티 그라데이션) */
+.btn-submit {
+  height: 52px;
+  padding: 0 28px;
+  background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 55%, #ec4899 100%);
+  background-size: 160% auto;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+body.state-generated .btn-submit {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 9999px;
+}
+
+.btn-submit:hover {
+  background-position: right center;
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn-submit:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(6, 182, 212, 0.25);
+}
+
+/* ==========================================================================
+   토스트 안내 메시지
+   ========================================================================== */
+.toast {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translate(-50%, -100px);
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   반응형 미디어 쿼리 (모바일 대응)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .app-header {
+    padding: 16px 20px;
+  }
+  
+  .logo-title {
+    font-size: 0.95rem;
+  }
+  
+  .logo-img {
+    height: 28px;
+  }
+
+  .main-title {
+    font-size: 1.35rem;
+  }
+
+  .main-desc {
+    font-size: 0.85rem;
+  }
+
+  .input-card {
+    padding: 24px 20px;
+  }
+
+  .url-input {
+    height: 48px;
+    font-size: 0.95rem;
+  }
+
+  .btn-submit {
+    height: 48px;
+    padding: 0 20px;
+    font-size: 0.95rem;
+  }
+
+  .qr-card {
+    width: 280px;
+    padding: 24px 20px 20px;
+  }
+
+  #qrcode-box {
+    width: 190px;
+    height: 190px;
+  }
+
+  #qrcode-box canvas {
+    width: 190px !important;
+    height: 190px !important;
+  }
+
+  body.state-generated .input-container {
+    top: calc(100% - 90px);
+  }
+}
